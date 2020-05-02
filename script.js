@@ -5,6 +5,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
   const input = document.querySelector(".proseinput");
   const button = document.querySelector(".parsebutton");
   let alternates = {};
+  let ctrling = false;
 
   const parseFunction = function parseFunction(e) {
 
@@ -85,26 +86,65 @@ window.addEventListener('DOMContentLoaded', (event) => {
         })
     })
 
+    const groupButton = document.createElement('button');
+    groupButton.innerText = "Roll Group";
+    groupButton.classList.add('group-button');
+    document.body.appendChild(groupButton);
+    groupButton.addEventListener('click', rollGroup);
+
   }
 
-  const rollWord = function rollWord(e) {
+  const rollOne = function rollOne(e) {
     if (!e.target.matches('.keyword')) {
       return;
+    } else if (ctrling) {
+      if (e.target.matches('.group')) {
+        e.target.classList.remove('group');
+      } else {
+        e.target.classList.add('group');
+      }
+      return;
     }
-    const keyWordSpan = e.target;
-    let thisAlts = alternates[keyWordSpan.dataset.original];
+    roll(e.target);
+  }
+
+  const rollGroup = function rollGroup() {
+    const groupWords = [...document.querySelectorAll('.group')];
+    groupWords.forEach(roll);
+  }
+
+  const roll = function roll(keywordSpan) {
+    let thisAlts = alternates[keywordSpan.dataset.original];
     let newText = thisAlts[Math.floor(Math.random() * thisAlts.length)];
-    if (keyWordSpan.dataset.comma) {
+    if (keywordSpan.dataset.comma) {
       newText += ",";
-    } else if (keyWordSpan.dataset.period) {
+    } else if (keywordSpan.dataset.period) {
       newText += ".";
     }
     newText += " ";
-    keyWordSpan.innerText = newText;
+    keywordSpan.innerText = newText;
   }
 
   button.addEventListener("click", parseFunction);
-  document.addEventListener('click', rollWord);
+  document.addEventListener('click', rollOne);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === "Control") {
+      ctrling = true;
+    }
+  });
+  document.addEventListener('keyup', (e) => {
+    if (e.key === "Control") {
+      ctrling = false;
+    }
+  })
 
 
 });
+
+// fetch('https://api.wordassociations.net/associations/v1.0/json/search?apikey=2f06934d-533f-4380-943c-460ce962753e&text=limp&lang=en&type=stimulus&pos=verb&limit=50')
+//   .then((data) => {
+//     return data.json();
+//   })
+//   .then((data) => {
+//     console.log(data)
+//   })

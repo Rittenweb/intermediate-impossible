@@ -16,6 +16,10 @@
   color: orange;
 }
 
+.group {
+  background-color: pink;
+}
+
 textarea {
   resize: none;
 }
