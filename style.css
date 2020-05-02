@@ -2,3 +2,20 @@
   border: 1px solid blue;
   cursor: pointer;
 }
+
+.noun {
+  color: green;
+}
+
+.verb {
+  color: red;
+}
+
+.adjective,
+.adverb {
+  color: orange;
+}
+
+textarea {
+  resize: none;
+}
