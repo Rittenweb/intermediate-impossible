@@ -6,14 +6,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
   const button = document.querySelector(".parsebutton");
   let alternates = {};
 
-  const parseFunction = function (e) {
+  const parseFunction = function parseFunction(e) {
 
     let text = comp(input.value);
     let tagged = text.html({
       '(#Noun && !#Pronoun)': "keyword noun",
       '(#PresentTense && !#Gerund)': "keyword verb",
-      '(#Gerund)': "keyword verb gerund",
-      '(#PastTense)': "keyword verb past",
+      '#Gerund': "keyword verb gerund",
+      '#PastTense': "keyword verb past",
       '#Adjective': 'keyword adjective',
       '#Adverb': 'keyword adverb'
     })
@@ -24,9 +24,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
     document.body.appendChild(textElement);
     let keywords = [...document.querySelectorAll(".keyword")];
     keywords.forEach((keyword) => {
+      let text = keyword.innerText;
+      keyword.dataset.original = text;
+      if (text.endsWith(",") || text.endsWith(", ")) {
+        keyword.dataset.comma = true;
+      } else if (text.endsWith(".") || text.endsWith(". ")) {
+        keyword.dataset.period = true;
+      }
+    })
+
+    keywords.forEach((keyword) => {
       let keywordText = keyword.innerText.replace(/[^a-zA-Z\s]/g, "");
       alternates[keyword.innerText] = [];
-      let tag;;
+      let tag;
       let nounPlural = false;
       let classList = keyword.classList;
       let verbPast = classList.contains('past');
@@ -74,9 +84,27 @@ window.addEventListener('DOMContentLoaded', (event) => {
           });
         })
     })
-    console.log(alternates);
+
   }
 
-  button.addEventListener("click", parseFunction)
+  const rollWord = function rollWord(e) {
+    if (!e.target.matches('.keyword')) {
+      return;
+    }
+    const keyWordSpan = e.target;
+    let thisAlts = alternates[keyWordSpan.dataset.original];
+    let newText = thisAlts[Math.floor(Math.random() * thisAlts.length)];
+    if (keyWordSpan.dataset.comma) {
+      newText += ",";
+    } else if (keyWordSpan.dataset.period) {
+      newText += ".";
+    }
+    newText += " ";
+    keyWordSpan.innerText = newText;
+  }
+
+  button.addEventListener("click", parseFunction);
+  document.addEventListener('click', rollWord);
+
 
 });
