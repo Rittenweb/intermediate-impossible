@@ -11,7 +11,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
     let text = comp(input.value);
     let tagged = text.html({
       '(#Noun && !#Pronoun)': "keyword noun",
-      '(#Verb && !#Copula && !#Modal && !PhrasalVerb)': "keyword verb",
+      '(#PresentTense && !#Gerund)': "keyword verb",
+      '(#Gerund)': "keyword verb gerund",
+      '(#PastTense)': "keyword verb past",
       '#Adjective': 'keyword adjective',
       '#Adverb': 'keyword adverb'
     })
@@ -24,10 +26,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
     keywords.forEach((keyword) => {
       let keywordText = keyword.innerText.replace(/[^a-zA-Z\s]/g, "");
       alternates[keyword.innerText] = [];
-      let tag;
-      let verbType;
+      let tag;;
       let nounPlural = false;
       let classList = keyword.classList;
+      let verbPast = classList.contains('past');
+      let verbGerund = classList.contains('gerund');
       if (classList.contains('noun')) {
         tag = 'n';
         let noun = comp(keywordText)
@@ -37,6 +40,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
       } else if (classList.contains('verb')) {
         tag = 'v';
+        keywordText = comp(keywordText).verbs().toInfinitive().text();
       } else if (classList.contains('adjective')) {
         tag = 'adj';
       } else if (classList.contains('adverb')) {
@@ -56,6 +60,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
               let result = alternate.word;
               if (nounPlural) {
                 result = comp(result).nouns().toPlural().text();
+              } else if (verbPast) {
+                let lexicon = {};
+                lexicon[`${result}`] = 'Verb';
+                result = comp(result, lexicon).verbs().toPastTense().text();
+              } else if (verbGerund) {
+                let lexicon = {};
+                lexicon[`${result}`] = 'Verb';
+                result = comp(result, lexicon).verbs().toGerund().text();
               }
               alternates[keyword.innerText].push(result);
             }
