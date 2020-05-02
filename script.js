@@ -59,7 +59,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       } else {
         return;
       }
-      fetch(`https://api.datamuse.com/words?ml=${keywordText}`, {
+      fetch(`https://api.datamuse.com/words?ml=${keywordText}&max=200`, {
           cache: 'no-cache',
         })
         .then((data) => {
@@ -92,6 +92,26 @@ window.addEventListener('DOMContentLoaded', (event) => {
     document.body.appendChild(groupButton);
     groupButton.addEventListener('click', rollGroup);
 
+    const label = document.createElement('label');
+    label.for = 'distance';
+    label.innerText = "Choose desired distance";
+    document.body.appendChild(label);
+    const select = document.createElement('select');
+    select.name = 'distance';
+    document.body.appendChild(select);
+    const optionSynonym = document.createElement('option');
+    optionSynonym.value = 'synonym';
+    optionSynonym.innerText = 'synonym';
+    select.appendChild(optionSynonym);
+    const optionIntermediate = document.createElement('option');
+    optionIntermediate.value = 'intermediate';
+    optionIntermediate.innerText = 'intermediate';
+    select.appendChild(optionIntermediate);
+    const optionImpossible = document.createElement('option');
+    optionImpossible.value = 'impossible';
+    optionImpossible.innerText = 'impossible';
+    select.appendChild(optionImpossible);
+
   }
 
   const rollOne = function rollOne(e) {
@@ -115,7 +135,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
   const roll = function roll(keywordSpan) {
     let thisAlts = alternates[keywordSpan.dataset.original];
-    let newText = thisAlts[Math.floor(Math.random() * thisAlts.length)];
+    const thirdAlts = Math.floor(thisAlts.length / 3);
+    let index;
+    const distanceEl = document.querySelector('select');
+    const distance = distanceEl.options[distanceEl.selectedIndex].value;
+    if (distance === "synonym") {
+      index = Math.floor(Math.random() * thirdAlts);
+    } else if (distance === "impossible") {
+      index = Math.floor(Math.random() * thirdAlts) + (thirdAlts * 2);
+    } else {
+      index = Math.floor(Math.random() * thirdAlts) + thirdAlts;
+    }
+    let newText = thisAlts[index];
     if (keywordSpan.dataset.comma) {
       newText += ",";
     } else if (keywordSpan.dataset.period) {
