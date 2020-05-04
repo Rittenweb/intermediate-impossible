@@ -4,10 +4,35 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
   const input = document.querySelector(".proseinput");
   const button = document.querySelector(".parsebutton");
+  const container = document.querySelector('.post-parse');
   let alternates = {};
   let ctrling = false;
 
   const parseFunction = function parseFunction(e) {
+
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
+
+    const label = document.createElement('label');
+    label.for = 'distance';
+    label.innerText = "Choose desired distance";
+    container.appendChild(label);
+    const select = document.createElement('select');
+    select.name = 'distance';
+    container.appendChild(select);
+    const optionSynonym = document.createElement('option');
+    optionSynonym.value = 'synonym';
+    optionSynonym.innerText = 'synonym';
+    select.appendChild(optionSynonym);
+    const optionIntermediate = document.createElement('option');
+    optionIntermediate.value = 'intermediate';
+    optionIntermediate.innerText = 'intermediate';
+    select.appendChild(optionIntermediate);
+    const optionImpossible = document.createElement('option');
+    optionImpossible.value = 'impossible';
+    optionImpossible.innerText = 'impossible';
+    select.appendChild(optionImpossible);
 
     let text = comp(input.value);
     let tagged = text.html({
@@ -22,7 +47,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     const textElement = document.createElement('p');
     textElement.innerHTML = tagged;
-    document.body.appendChild(textElement);
+    container.appendChild(textElement);
     let keywords = [...document.querySelectorAll(".keyword")];
     keywords.forEach((keyword) => {
       let text = keyword.innerText;
@@ -89,28 +114,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const groupButton = document.createElement('button');
     groupButton.innerText = "Roll Group";
     groupButton.classList.add('group-button');
-    document.body.appendChild(groupButton);
+    container.appendChild(groupButton);
     groupButton.addEventListener('click', rollGroup);
-
-    const label = document.createElement('label');
-    label.for = 'distance';
-    label.innerText = "Choose desired distance";
-    document.body.appendChild(label);
-    const select = document.createElement('select');
-    select.name = 'distance';
-    document.body.appendChild(select);
-    const optionSynonym = document.createElement('option');
-    optionSynonym.value = 'synonym';
-    optionSynonym.innerText = 'synonym';
-    select.appendChild(optionSynonym);
-    const optionIntermediate = document.createElement('option');
-    optionIntermediate.value = 'intermediate';
-    optionIntermediate.innerText = 'intermediate';
-    select.appendChild(optionIntermediate);
-    const optionImpossible = document.createElement('option');
-    optionImpossible.value = 'impossible';
-    optionImpossible.innerText = 'impossible';
-    select.appendChild(optionImpossible);
 
   }
 
@@ -145,6 +150,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
       index = Math.floor(Math.random() * thirdAlts) + (thirdAlts * 2);
     } else {
       index = Math.floor(Math.random() * thirdAlts) + thirdAlts;
+    }
+    while (!thisAlts[index]) {
+      index = (index + 1) % thisAlts.length;
     }
     let newText = thisAlts[index];
     if (keywordSpan.dataset.comma) {
