@@ -1,41 +1,13 @@
-body {
-  background-image: repeating-radial-gradient(
-      circle at center center,
-      rgba(102, 148, 53, 0.4) 0px,
-      rgba(102, 148, 53, 0.4) 6px,
-      transparent 6px,
-      transparent 9px,
-      rgba(186, 110, 32, 0.4) 9px,
-      rgba(186, 110, 32, 0.4) 19px,
-      transparent 19px,
-      transparent 23px,
-      rgba(144, 129, 43, 0.4) 23px,
-      rgba(144, 129, 43, 0.4) 24px
-    ),
-    repeating-linear-gradient(
-      135deg,
-      rgb(0, 0, 0) 0px,
-      rgb(0, 0, 0) 6px,
-      rgb(0, 0, 0) 6px,
-      rgb(0, 0, 0) 11px,
-      rgb(0, 0, 0) 11px,
-      rgb(0, 0, 0) 20px,
-      rgb(0, 0, 0) 20px,
-      rgb(0, 0, 0) 32px
-    );
-  background-size: 52px 52px;
+:focus {
+  outline-color: #dcb15d;
 }
 
-main {
-  display: flex;
-  flex-direction: column;
-  width: 50vw;
-  min-width: 340px;
-  min-height: 80vh;
-  margin: auto;
-  border: 3px solid white;
-  border-radius: 16px;
-  padding: 2rem;
+::selection {
+  background: #dcb15d;
+}
+
+body {
+  font-family: 'Alegreya Sans SC', sans-serif;
   background-image: repeating-radial-gradient(
       circle at center center,
       rgba(102, 184, 13, 0.25) 0px,
@@ -63,15 +35,45 @@ main {
   background-size: 72px 72px;
 }
 
+header {
+  background-color: black;
+  color: antiquewhite;
+  width: 250px;
+  padding: 1vw;
+  margin: 1vw 1vw 20px 1vw;
+  font-size: 24px;
+  border: 2px dashed #a6ae9c;
+  outline: 4px solid black;
+  box-shadow: 8px 8px #dcb15d;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+  min-width: 340px;
+  min-height: 70vh;
+  margin: auto;
+  border: 2px dashed #a6ae9c;
+  outline: 4px solid black;
+  padding: 2rem;
+  background-color: black;
+  color: antiquewhite;
+}
+
 textarea {
+  font-family: 'Alegreya Sans SC', sans-serif;
+  background-color: hsl(48, 47%, 85%);
   resize: none;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
 
 .parsebutton {
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
+  font-family: 'Alegreya Sans SC', sans-serif;
+  background-color: #dcb15d;
+  color: black;
+  border: 1.5px dashed #a6ae9c;
 }
 
 .post-parse {
@@ -81,16 +83,16 @@ textarea {
   align-items: center;
   margin: 2rem 0 2rem 0;
   padding: 2rem;
-  background-color: white;
 }
 
 pre {
-  background-color: white;
+  font-family: 'Alegreya Sans SC', sans-serif;
 }
 
 .keyword {
-  border: 1px solid blue;
   cursor: pointer;
+  margin: 0 5px 0 5px;
+  border: 1.5px dashed #dcb15d;
 }
 
 .noun {
@@ -107,5 +109,17 @@ pre {
 }
 
 .group {
-  background-color: pink;
+  border-bottom: 2px solid #dcb15d;
+}
+
+select {
+  font-family: 'Alegreya Sans SC', sans-serif;
+  background-color: hsl(48, 47%, 85%);
+}
+
+.group-button {
+  font-family: 'Alegreya Sans SC', sans-serif;
+  background-color: hsl(48, 47%, 85%);
+  color: black;
+  border: 1.5px dashed #a6ae9c;
 }
