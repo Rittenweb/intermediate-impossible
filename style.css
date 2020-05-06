@@ -44,7 +44,7 @@ header {
   font-size: 24px;
   border: 2px dashed #a6ae9c;
   outline: 4px solid black;
-  box-shadow: 8px 8px #dcb15d;
+  box-shadow: 9px 9px #dcb15d;
 }
 
 main {
@@ -59,21 +59,29 @@ main {
   padding: 2rem;
   background-color: black;
   color: antiquewhite;
+  box-shadow: 7px 7px #dcb15d;
+}
+
+.pre-parse {
+  display: flex;
 }
 
 textarea {
   font-family: 'Alegreya Sans SC', sans-serif;
   background-color: hsl(48, 47%, 85%);
   resize: none;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+  font-size: 1rem;
+  height: 10vh;
+  width: 85%;
 }
 
 .parsebutton {
   font-family: 'Alegreya Sans SC', sans-serif;
   background-color: #dcb15d;
+  font-size: 1rem;
   color: black;
-  border: 1.5px dashed #a6ae9c;
+  border: 2px dashed #a6ae9c;
+  width: 15%;
 }
 
 .post-parse {
@@ -81,12 +89,21 @@ textarea {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  margin: 2rem 0 2rem 0;
+  height: 50vh;
   padding: 2rem;
+}
+
+.bottom-top-post-parse {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 pre {
   font-family: 'Alegreya Sans SC', sans-serif;
+  font-size: 2rem;
+  white-space: pre-wrap;
+  max-width: 50vw;
 }
 
 .keyword {
@@ -96,16 +113,16 @@ pre {
 }
 
 .noun {
-  color: green;
+  color: #4c7025;
 }
 
 .verb {
-  color: red;
+  color: #ad652b;
 }
 
 .adjective,
 .adverb {
-  color: orange;
+  color: #467f8e;
 }
 
 .group {
@@ -121,5 +138,10 @@ select {
   font-family: 'Alegreya Sans SC', sans-serif;
   background-color: hsl(48, 47%, 85%);
   color: black;
+  padding: 5px;
   border: 1.5px dashed #a6ae9c;
+}
+
+.instructions {
+  font-size: 1rem;
 }

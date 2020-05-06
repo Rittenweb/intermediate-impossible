@@ -14,13 +14,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
       container.removeChild(container.firstChild);
     }
 
+    const topPostParse = document.createElement('div');
+    topPostParse.classList.add('bottom-top-post-parse');
+
     const label = document.createElement('label');
     label.for = 'distance';
     label.innerText = "Choose desired distance";
-    container.appendChild(label);
+    topPostParse.appendChild(label);
     const select = document.createElement('select');
     select.name = 'distance';
-    container.appendChild(select);
+    topPostParse.appendChild(select);
     const optionSynonym = document.createElement('option');
     optionSynonym.value = 'synonym';
     optionSynonym.innerText = 'synonym';
@@ -33,6 +36,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     optionImpossible.value = 'impossible';
     optionImpossible.innerText = 'impossible';
     select.appendChild(optionImpossible);
+
+    container.appendChild(topPostParse)
 
     let text = comp(input.value);
     let tagged = text.html({
@@ -111,11 +116,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
         })
     })
 
+    const bottomPostParse = document.createElement('div');
+    bottomPostParse.classList.add('bottom-top-post-parse');
+
     const groupButton = document.createElement('button');
     groupButton.innerText = "Roll Group";
     groupButton.classList.add('group-button');
-    container.appendChild(groupButton);
+    bottomPostParse.appendChild(groupButton);
     groupButton.addEventListener('click', rollGroup);
+
+    const instructions = document.createElement('p');
+    instructions.innerText = "Click a word to roll it... or (ctrl + click) to add to group"
+    instructions.classList.add('instructions');
+    bottomPostParse.appendChild(instructions);
+
+    container.appendChild(bottomPostParse);
 
   }
 
@@ -140,6 +155,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
   const roll = function roll(keywordSpan) {
     let thisAlts = alternates[keywordSpan.dataset.original];
+    if (thisAlts.length === 0) {
+      return;
+    }
     const thirdAlts = Math.floor(thisAlts.length / 3);
     let index;
     const distanceEl = document.querySelector('select');
